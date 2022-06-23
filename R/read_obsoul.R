@@ -37,7 +37,8 @@ read_obsoul <- function(
   date_time_check    <- paste(date_time_check, collapse = "")
 
   # Read the data and check for problems
-  obs_df <- try(read.table(file_connection, fill = TRUE), silent = TRUE)
+  maxcols <-c(1:62)
+  obs_df <- try(read.table(file_connection, fill = TRUE,col.names=maxcol), silent = TRUE)
 
   if (inherits(obs_df, "try-error")) {
     warning("Cannot read ", file_name, ".", call. = FALSE, immediate. = TRUE)
@@ -58,6 +59,8 @@ read_obsoul <- function(
   obs_df <- dplyr::mutate(
     obs_df,
     type = dplyr::case_when(
+      str_sub(.data[["xx"]],-2,-1) == 14  ~ "synop", 
+      str_sub(.data[["xx"]],-2,-1) == 24  ~ "ship",
       .data[["type"]] == 1   ~ "synop",
       .data[["type"]] == 2   ~ "airep",
       .data[["type"]] == 3   ~ "satob",
@@ -81,7 +84,7 @@ read_obsoul <- function(
   # for other obs types
   if (!is.null(obs_df[["synop"]])) {
     synop <- tidy_obsoul_synop(
-      obs_df[["synop"]], param_defs, country, max_obs
+      obs_df[["synop"]], param_defs, max_obs
     )
   } else {
     synop = list(synop = NULL)
@@ -94,13 +97,13 @@ read_obsoul <- function(
 ###
 # Function to tidy synop data
 ###
-tidy_obsoul_synop <- function(synop_df, param_defs, country, max_obs) {
+tidy_obsoul_synop <- function(synop_df, param_defs, max_obs) {
 
   # Modify SID depending on country, set validdate in unix time
   # and convert parameter codes to names
   synop_df <- dplyr::mutate(
     synop_df,
-    SID  = modify_sid(.data[["SID"]], country),
+    SID  = modify_sid(.data[["SID"]]),
     validdate = suppressMessages(
       str_datetime_to_unixtime(
         paste0(
@@ -115,19 +118,26 @@ tidy_obsoul_synop <- function(synop_df, param_defs, country, max_obs) {
   )
 
   # Gather all observations sections into common columns
-  synop_df <- lapply(
+synop_df <- lapply(
     1:max_obs,
     function(x) dplyr::select(
       synop_df,
       !dplyr::matches("^obs[[:digit:]]+"),
       dplyr::starts_with(paste0("obs", x))
-    ) %>%
-      dplyr::rename_with(
-        ~gsub("^obs[[:digit:]]+", "obs", .x)
-      )
-  ) %>%
-    dplyr::bind_rows() %>%
-    dplyr::select(
+    )
+  )
+synop_df[[1]] <- synop_df[[1]] %>% select(-starts_with("obs10"))
+
+
+colnames = c("num_col","type","xx","lat","lon","SID","date","hms","elev","num_obs","xx1","xx2","validdate", "obs_code","obs_1","obs_2","obs_3","obs_end")
+
+for (i in seq_along(synop_df)){
+  colnames(synop_df[[i]]) <- colnames
+}
+
+
+synop_df <- synop_df %>% bind_rows() %>%
+      dplyr::select(
       .data[["SID"]],
       .data[["lat"]],
       .data[["lon"]],
@@ -194,7 +204,7 @@ obsoul_cols <- function(max_obs) {
   col_names <- c(
     "num_col",
     "type",
-    "xx",
+    "xx", # (11 for a basic SYNOP, 14 for an automatic SYNOP, 21 for a basic SHIP, 24 for an automatic SHIP,...)
     "lat",
     "lon",
     "SID",
@@ -251,22 +261,18 @@ obsoul_param_code_to_name <- function(x, param_defs) {
 
 ###
 # Function to add a country indicator to site IDs
-modify_sid <- function(x, country) {
-
-  country_codes <- list(
-    at = 90,
-    cr = 91,
-    cz = 92,
-    hu = 93,
-    pl = 94,
-    ro = 95,
-    si = 96,
-    sk = 97
+modify_sid <- function(x) {
+  x <- str_replace_all(x,
+    c("^AT" = "90",
+      "^CR" = "91",
+      "^CZ" = "92",
+      "^HU" = "93",
+      "^PL" = "94",
+      "^RO" = "95",
+      "^SI" = "96",
+      "^SK" = "97"
+      )
   )
-
-  x <- gsub("[[:alpha:]]|", "", x)
-  x <- paste0(country_codes[[country]], x)
-
   as.numeric(x)
 
 }
