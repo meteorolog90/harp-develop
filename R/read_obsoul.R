@@ -24,8 +24,6 @@ read_obsoul <- function(
     sapply(param_defs, function(x) is.element("obsoul", names(x)))
   ]
 
-  # Get the country from the file nam2
-  country <- strsplit(basename(file_name), "_")[[1]][4]
 
   file_connection <- file(file_name, "r")
   on.exit(close(file_connection))
@@ -37,7 +35,7 @@ read_obsoul <- function(
   date_time_check    <- paste(date_time_check, collapse = "")
 
   # Read the data and check for problems
-  maxcols <-c(1:62)
+  maxcol <-c(1:62)
   obs_df <- try(read.table(file_connection, fill = TRUE,col.names=maxcol), silent = TRUE)
 
   if (inherits(obs_df, "try-error")) {
