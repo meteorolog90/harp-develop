@@ -27,7 +27,6 @@ get_fa_param_info <- function(param, fa_type="arome", fa_vector=TRUE, rotate_win
   if (existsFunction("fa_override")) {
     if (!is.null(fa_override(param$fullname))) return(fa_override(param$fullname))
   }
-
   # generic templates (there are exceptions!)
   if (tolower(param$fullname) %in% hardcoded_fields) {
     FAname <- switch(tolower(param$fullname),
@@ -44,7 +43,7 @@ get_fa_param_info <- function(param, fa_type="arome", fa_vector=TRUE, rotate_win
                      "td2m" = c("CLSHUMI.RELATIVE", "CLSTEMPERATURE  "),
                      "z0m"  = ,
                      "sfc_geopotential" = ,
-                     "sfc_geo" = "SURFGEOPOTENTIEL",
+                     "sfc_geo" = "SPECSURFGEOPOTEN",
                      "lsm"  = "SURFIND.TERREMER",
                      "cape" = "SURFCAPE.POS.F00", # "SURFCAPE.MOD.XFU"
                      "cien" = "SURFCIEN.POS.F00",
@@ -103,7 +102,7 @@ get_fa_param_info <- function(param, fa_type="arome", fa_vector=TRUE, rotate_win
       "rain" = if (fa_type=="alaro") c("SURFPREC.EAU.GEC", "SURFPREC.EAU.CON")
                else "SURFACCPLUIE",
       #
-#      "sfc_geo" = "SPECSURFGEOPOTEN",
+      #"sfc_geo" = c("SPECSURFGEOPOTEN","SPECSURFGEOP"),
       # accumulated radiation fields:
       "strd"  = ,
       "lwrad" = "SURFRAYT THER DE",  # thermal
