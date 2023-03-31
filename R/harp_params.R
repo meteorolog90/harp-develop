@@ -1372,7 +1372,8 @@ harp_params <- function() {
       obsoul = list(
         name = 79,
         units = "mm",
-        harp_name = "RR1h"
+        harp_name = "AccPcp1h"
+        #harp_name = "RR1h"
       )
     ),
     ###
@@ -1410,7 +1411,8 @@ harp_params <- function() {
       obsoul = list(
         name = 80,
         units = "mm",
-        harp_name = "RR6h"
+        harp_name = "AccPcp6h"
+        #harp_name = "RR6h"
       )
     ),
     ###
@@ -1740,8 +1742,24 @@ harp_params <- function() {
         units = "J/kg"
       )
 
-    )
+    ),
     ###
+   snow = list (
+
+      description = "Snow depth",	
+  
+      obsoul = list(
+	name      = 92,
+        units     = "cm",
+        harp_name = "Snow"		
+	
+	)
+
+
+   ) 	
+
+
+
 
   )
 

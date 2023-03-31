@@ -35,9 +35,9 @@ read_obsoul <- function(
   date_time_check    <- paste(date_time_check, collapse = "")
 
   # Read the data and check for problems
-  maxcol <-c(1:62)
-  obs_df <- try(read.table(file_connection, fill = TRUE,col.names=maxcol), silent = TRUE)
-
+  #maxcol <-c(1:62)
+  #obs_df <- try(read.table(file_connection, fill = TRUE,col.names=maxcol), silent = TRUE)
+  obs_df <- try(read.table(file_connection, fill = TRUE), silent = TRUE)
   if (inherits(obs_df, "try-error")) {
     warning("Cannot read ", file_name, ".", call. = FALSE, immediate. = TRUE)
     return(list(synop = NULL))
@@ -52,7 +52,6 @@ read_obsoul <- function(
 
   # Add column names
   colnames(obs_df) <- obsoul_cols(max_obs)
-
   # Get the observation type based on the code
   obs_df <- dplyr::mutate(
     obs_df,
@@ -73,9 +72,7 @@ read_obsoul <- function(
       TRUE                   ~ "unknown"
     )
   )
-
   # Split the data by type
-
   obs_df <- split(obs_df, obs_df[["type"]])
 
   # Only works on synop data for now - will need other tidying functions
@@ -89,7 +86,6 @@ read_obsoul <- function(
   }
 
   c(synop)
-
 }
 
 ###
@@ -124,7 +120,7 @@ synop_df <- lapply(
       dplyr::starts_with(paste0("obs", x))
     )
   )
-synop_df[[1]] <- synop_df[[1]] %>% select(-starts_with("obs10"))
+#synop_df[[1]] <- synop_df[[1]] %>% select(-starts_with("obs10"))
 
 
 colnames = c("num_col","type","xx","lat","lon","SID","date","hms","elev","num_obs","xx1","xx2","validdate", "obs_code","obs_1","obs_2","obs_3","obs_end")
