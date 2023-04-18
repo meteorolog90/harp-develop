@@ -1,4 +1,6 @@
 # Set options for FA decoding
+
+@export
 #' @param fa_type The kind of model file: "arome", "alaro", "surfex"... Mainly important for precipitation fields.
 #' @param fa_vector TRUE if the wind variable (speed, direction) must be calculated from components U & V
 #' @param rotate_wind TRUE means wind U,V (along axes of the grid) should be rotated to actual N.
