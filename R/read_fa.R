@@ -1,15 +1,14 @@
 # Set options for FA decoding
 
-#' @export
 #' @param fa_type The kind of model file: "arome", "alaro", "surfex"... Mainly important for precipitation fields.
 #' @param fa_vector TRUE if the wind variable (speed, direction) must be calculated from components U & V
 #' @param rotate_wind TRUE means wind U,V (along axes of the grid) should be rotated to actual N.
 #' @param meta If TRUE, the time and grid details are also decoded. This is slower.
 #' @param ... Any non-standard options that don't have default values.
 #' @result Returns a list of options. Either the defaults or any modification.
-#fa_opts <- function(meta=TRUE, fa_type="arome", fa_vector=TRUE, rotate_wind=TRUE, ...) {
-#  list(meta=meta, fa_type=fa_type, fa_vector=fa_vector, rotate_wind=rotate_wind, ...)
-#}
+fa_opts <- function(meta=TRUE, fa_type="arome", fa_vector=TRUE, rotate_wind=TRUE, ...) {
+  list(meta=meta, fa_type=fa_type, fa_vector=fa_vector, rotate_wind=rotate_wind, ...)
+}
 
 # Read a field from an FA file
 #
@@ -43,8 +42,7 @@
 #   column of the gridded and / or transformed data.
 #
 # NOT exported. Used internally.
-#' @rdname fa_opts
-#' @export
+
 read_fa <- function(file_name,
                     parameter,
                     lead_time=NULL,
@@ -186,11 +184,6 @@ read_fa <- function(file_name,
 
 }
       
-#' @rdname fa_opts
-#' @export
-fa_opts <- function(meta=TRUE, fa_type="arome", fa_vector=TRUE, rotate_wind=TRUE, ...) {
-  list(meta=meta, fa_type=fa_type, fa_vector=fa_vector, rotate_wind=rotate_wind, ...)
-}
 
 # ALARO doesn't write Tdew, so we calculate it from RH and T
 #' Standard Magnus formula for dewpoint temperature
