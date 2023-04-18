@@ -7,9 +7,9 @@
 #' @param meta If TRUE, the time and grid details are also decoded. This is slower.
 #' @param ... Any non-standard options that don't have default values.
 #' @result Returns a list of options. Either the defaults or any modification.
-fa_opts <- function(meta=TRUE, fa_type="arome", fa_vector=TRUE, rotate_wind=TRUE, ...) {
-  list(meta=meta, fa_type=fa_type, fa_vector=fa_vector, rotate_wind=rotate_wind, ...)
-}
+#fa_opts <- function(meta=TRUE, fa_type="arome", fa_vector=TRUE, rotate_wind=TRUE, ...) {
+#  list(meta=meta, fa_type=fa_type, fa_vector=fa_vector, rotate_wind=rotate_wind, ...)
+#}
 
 # Read a field from an FA file
 #
@@ -43,7 +43,8 @@ fa_opts <- function(meta=TRUE, fa_type="arome", fa_vector=TRUE, rotate_wind=TRUE
 #   column of the gridded and / or transformed data.
 #
 # NOT exported. Used internally.
-
+#' @rdname fa_opts
+#' @export
 read_fa <- function(file_name,
                     parameter,
                     lead_time=NULL,
@@ -59,6 +60,8 @@ read_fa <- function(file_name,
 # harp_env$fa_infile <- infile
 # harp_env$fa_domain <-
 ## or use the same trick as meteogrid for e.g. .Last.domain()
+  
+  
   if (!requireNamespace("Rfa", quietly=TRUE)) {
     stop("The Rfa package must be installed to read FA files.\n",
          "Please contact alex.deckmyn@meteo.be for the package code.")
@@ -182,7 +185,12 @@ read_fa <- function(file_name,
   fa_data
 
 }
-
+      
+#' @rdname fa_opts
+#' @export
+fa_opts <- function(meta=TRUE, fa_type="arome", fa_vector=TRUE, rotate_wind=TRUE, ...) {
+  list(meta=meta, fa_type=fa_type, fa_vector=fa_vector, rotate_wind=rotate_wind, ...)
+}
 
 # ALARO doesn't write Tdew, so we calculate it from RH and T
 #' Standard Magnus formula for dewpoint temperature
