@@ -344,14 +344,14 @@ derive_6h_precip <- function(pcp_data, obs_files, first_date, last_date, station
         .data$units,
         AccPcp6h_lag = .data$AccPcp6h
       )
-    )# %>%
-    #dplyr::full_join(pcp_AccPcp12h) %>%
-    #dplyr::mutate(
-    #  AccPcp6h = dplyr::case_when(
-    #    is.na(.data$AccPcp6h) ~ (.data$AccPcp12h - .data$AccPcp6h_lag),
-    #    TRUE                  ~ .data$AccPcp6h
-    #  )
-    #) %>%
+    ) %>%
+    dplyr::full_join(pcp_AccPcp12h) %>%
+    dplyr::mutate(
+      AccPcp6h = dplyr::case_when(
+        is.na(.data$AccPcp6h) ~ (.data$AccPcp12h - .data$AccPcp6h_lag),
+        TRUE                  ~ .data$AccPcp6h
+      )
+    ) %>%
     #dplyr::select(-.data$AccPcp6h_lag)
 
   dplyr::full_join(pcp_data, pcp_AccPcp6h)
