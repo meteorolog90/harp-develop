@@ -1372,7 +1372,7 @@ harp_params <- function() {
       obsoul = list(
         name = 79,
         units = "mm",
-        harp_name = "AccPcp1h"
+        harp_name = "Pcp1h"
         #harp_name = "RR1h"
       )
     ),
@@ -1411,7 +1411,7 @@ harp_params <- function() {
       obsoul = list(
         name = 80,
         units = "mm",
-        harp_name = "AccPcp6h"
+        harp_name = "Pcp6h"
         #harp_name = "RR6h"
       )
     ),
