@@ -352,7 +352,7 @@ derive_6h_precip <- function(pcp_data, obs_files, first_date, last_date, station
         TRUE                  ~ .data$AccPcp6h
       )
     ) %>%
-    #dplyr::select(-.data$AccPcp6h_lag)
+    dplyr::select(-.data$AccPcp6h_lag)
 
   dplyr::full_join(pcp_data, pcp_AccPcp6h)
 
