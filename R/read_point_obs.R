@@ -66,6 +66,14 @@
 #'     obs_path            = system.file("OBSTABLE", package = "harpData"),
 #'     vertical_coordinate = "pressure"
 #'   )
+#'   # Read observation write from obsouls files
+#'   read_point_obs(
+#'     first_validdate(forecast),
+#'     last_validdate(forecast),
+#'     parameter = "AccPcp6h",
+#'     obs_path  = "/path/to/obstable",
+#'     obs_file_format = "obsoul",
+#'   )
 #' }
 #'
 read_point_obs <- function(
