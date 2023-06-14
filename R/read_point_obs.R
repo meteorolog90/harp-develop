@@ -74,6 +74,7 @@ read_point_obs <- function(
   parameter,
   obs_path            = ".",
   obsfile_template    = "obstable",
+  obs_file_format     = NULL,
   gross_error_check   = TRUE,
   min_allowed         = NULL,
   max_allowed         = NULL,
@@ -135,7 +136,7 @@ read_point_obs <- function(
   )
 
   if (
-    parameter %in% c("AccPcp3h", "AccPcp6h", "AccPcp12h") &&
+    obs_file_format == "" && parameter %in% c("AccPcp3h", "AccPcp6h", "AccPcp12h") &&
       any(grepl("AccPcp3h|AccPcp6h|AccPcp12h", colnames(obs)))
     ) {
 
