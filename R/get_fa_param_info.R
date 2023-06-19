@@ -95,8 +95,7 @@ get_fa_param_info <- function(param, fa_type="arome", fa_vector=TRUE, rotate_win
       "cclow"=,
       "lcc"  = if (is.null(param$accum) || param$accum == 0) "SURFNEBUL.BASSE " else "ATMONEBUL.BASSE ",
       "pcp"  = if (fa_type=="alaro") c("SURFPREC.EAU.GEC", "SURFPREC.EAU.CON",
-                                       "SURFPREC.NEI.GEC", "SURFPREC.NEI.CON",
-                                       "SURFPREC.GRA.GEC")
+                                       "SURFPREC.NEI.GEC", "SURFPREC.NEI.CON")
                else c("SURFACCPLUIE", "SURFACCNEIGE", "SURFACCGRAUPEL") ,
       "snow" = if (fa_type=="alaro") c("SURFPREC.NEI.GEC", "SURFPREC.NEI.CON")
                else "SURFACCNEIGE",
