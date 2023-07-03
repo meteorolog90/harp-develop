@@ -1164,7 +1164,7 @@ harp_params <- function() {
       obsoul = list(
         name = 91,
         units = "percent",
-        harp_name = "NN"
+        harp_name = "CCtot"
       )
     ),
 
